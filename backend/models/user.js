@@ -5,17 +5,16 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const userSchema = new Schema({
     firstName: {
         type: String,
-        required: true
+        default: ''
     },
     lastName: {
         type: String,
-        required: true
+        default: ''
     },
     email: {
         type: String,
-        required: true,
-        match: [/.+\@.+\..+/, 'invalid email'],
-        unique: true
+        default: '',
+        match: [/.+\@.+\..+/, 'invalid email']
     }
 }, {timestamps: true});
 
