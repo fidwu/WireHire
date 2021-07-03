@@ -18,9 +18,12 @@ const educationSchema = new Schema({
 });
 
 const profileSchema = new Schema({
-    name: {
+    username: {
         type: String,
         unique: true
+    },
+    name: {
+        type: String,
     },
     email: {
         type: String,

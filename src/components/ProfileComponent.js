@@ -5,15 +5,17 @@ import Education from "./EducationComponent";
 import About from "./ProfileAbout";
 import Skills from "./SkillsComponent";
 
-const Profile = () => {
+const Profile = (props) => {
   const [userProfile, setUserProfile] = useState([]);
 
   useEffect(() => {
     console.log("ready to fetch");
+    console.log(props.user);
 
     const fetchProfileData = async () => {
       try {
-        let username = "johndoe";
+        const username = props.user;
+        // let username = localStorage.getItem('user');
         const result = await fetch(`profile/${username}`);
         const body = await result.json();
         console.log(body);
@@ -40,7 +42,11 @@ const Profile = () => {
     );
   } 
   else {
-    return null;
+    return (
+      <div className="profile">
+        <h5>Sign in or create an account to create a profile</h5>
+      </div>
+    );
   }
 };
 

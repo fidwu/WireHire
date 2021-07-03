@@ -31,10 +31,10 @@ const About = (props) => {
                 <div className="info text-center" key={info._id}>
                     <div className="align-items-center px-sm-2 py-2 mb-2 header">
                         <div>
-                            <h2>{info.firstname} {info.lastname}</h2>
-                            <div>{info.email}</div>
-                            <div>{info.phoneNum || 'N/A'}</div>
-                            <div>{info.location || 'N/A'}</div>
+                            <h2>{info.name || ""}</h2>
+                            <div>{info.email || ""}</div>
+                            <div>{info.phoneNum && info.phoneNum}</div>
+                            <div>{info.location && info.location}</div>
                         </div>
                         <h2><i className="fa fa-pencil" onClick={toggle}></i></h2>
                     </div>
@@ -44,7 +44,7 @@ const About = (props) => {
                             <Form onSubmit={handleSubmit}>
                                 <FormGroup>
                                     <Label htmlFor="username">Name</Label>
-                                    <Input type="text" id="name" name="name" placeholder="Name" defaultValue={`${info.firstName} ${info.lastName}`} onChange={handleChange} />
+                                    <Input type="text" id="name" name="name" placeholder="Name" defaultValue={`${info.name}`} onChange={handleChange} />
                                 </FormGroup>
                                 <FormGroup>
                                     <Label htmlFor="email">Email</Label>

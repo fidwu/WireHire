@@ -5,11 +5,13 @@ const profileRouter = express.Router();
 
 profileRouter.route('/:userId')
     .get((req, res, next) => {
-        Profile.find({username: req.params.userId})
-            .then(campsites => {
+        console.log(req.params.userId);
+        Profile.find({ username: req.params.userId })
+            .then(profile => {
+                console.log(profile);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.json(campsites);
+                res.json(profile);
             })
             .catch(err => next(err));
     })

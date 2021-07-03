@@ -5,19 +5,28 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const userSchema = new Schema({
     firstName: {
         type: String,
-        default: ''
+        default: '',
+        trim: true
     },
     lastName: {
         type: String,
-        default: ''
+        default: '',
+        trim: true
     },
     email: {
         type: String,
         default: '',
-        match: [/.+\@.+\..+/, 'invalid email']
+        match: [/.+\@.+\..+/, 'Invalid email'],
+        trim: true
     }
 }, {timestamps: true});
 
-userSchema.plugin(passportLocalMongoose);
+var options = {
+    errorMessages: {
+        UserExistsError: 'Username already exists'
+    }
+};
+
+userSchema.plugin(passportLocalMongoose, options);
 
 module.exports = mongoose.model('User', userSchema);
