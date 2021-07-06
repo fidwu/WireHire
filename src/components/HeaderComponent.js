@@ -18,7 +18,7 @@ class Header extends Component {
         this.toggleNav = this.toggleNav.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
 
-        console.log(this.props.loggedIn);
+        console.log(this.props.user);
     }
 
     toggleNav() {
@@ -58,16 +58,19 @@ class Header extends Component {
                     if (res.status === 200) {
                         this.setState({ successMsg: "Login successful!" });
                         this.setState({ errorMsg: null });
+                        this.props.setUser(null);
                     }
                     else {
                         this.password.value = "";
                         this.setState({ errorMsg: "Invalid username or password" });
                         this.setState({ successMsg: null });
+                        this.props.setUser(null);
                     }
                     return res.json();
                 })
                 .then(data => {
                     console.log(data);
+                    this.props.setUser(data.user);
                     setTimeout(() => {
                         this.toggleModal();
                         this.setState({ successMsg: null });
@@ -110,7 +113,7 @@ class Header extends Component {
                                     </NavLink>
                                 </NavItem>
                             </Nav>
-                            {this.props.loggedIn ? 
+                            {this.props.user ? 
                                 <span onClick={this.props.handleLogout}>
                                     <Button className="navbar-text float-sm-right nav-item-color" variant="outline-success">
                                         <i className="fa fa-sign-out fa-lg" /> Logout

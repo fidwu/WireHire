@@ -1,84 +1,85 @@
-import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
-import Home from './HomeComponent';
-import Jobs from './JobsComponent';
-import Header from './HeaderComponent';
-import Footer from './FooterComponent';
-import Profile from './ProfileComponent';
-import JobsInfo from './JobsInfoComponent';
-import SignUp from './SignUpComponent';
+import React, { useEffect, useState } from "react";
+import { Switch, Route } from "react-router-dom";
+import Home from "./HomeComponent";
+import Jobs from "./JobsComponent";
+import Header from "./HeaderComponent";
+import Footer from "./FooterComponent";
+import Profile from "./ProfileComponent";
+import JobsInfo from "./JobsInfoComponent";
+import SignUp from "./SignUpComponent";
+import AuthContext from "./Auth";
 
-class Main extends Component {
+const Main = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState("");
 
-    constructor(props) {
-        super(props);
+  useEffect(() => {
+    fetch("/users/auth", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setIsLoggedIn(data.loggedIn);
+        setUser(data.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
-        this.state = {
-            isLoggedIn: false,
-            user: ''
-        };
+  const handleLogout = () => {
+    console.log("LOGOUT");
+    fetch("/users/logout", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => {
+        console.log(res);
+        setIsLoggedIn(false);
+        setUser(null);
+        // this.props.history.push("/");
+        return res.json();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-        console.log(this.state.isLoggedIn);
-    }
-
-    componentDidMount = () => {
-        fetch('/users/auth', {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            credentials: 'include'
-        })
-            .then(res => {
-                console.log(res);
-                return res.json();
-            })
-            .then(data => {
-                console.log(data);
-                this.setState({ isLoggedIn: data.loggedIn, user: data.user });
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
-
-    handleLogout = () => {
-        console.log("LOGOUT");
-        fetch('/users/logout', {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        })
-            .then(res => {
-                console.log(res);
-                this.setState({ isLoggedIn: false, user: '' });
-                this.props.history.push("/");
-                return res.json();
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
-
-    render() {
-        return (
-            <>
-                <Header loggedIn={this.state.isLoggedIn} handleLogout={this.handleLogout} />
-                <Switch>
-                    <Route exact path='/' component={Home} />
-                    <Route exact path='/jobs' component={Jobs} />
-                    <Route path="/jobs/:id" component={JobsInfo} />
-                    <Route path="/profile"
-                        render={() => (
-                            <Profile user={this.state.user} />
-                        )}/>
-                    <Route path="/signup" exact component={SignUp} />
-                </Switch>
-                <Footer />
-            </>
-        );
-    };
-}
+  return (
+    <AuthContext.Provider value={{ isLoggedIn, user }}>
+      <Header
+        user={user}
+        handleLogout={handleLogout}
+        setUser={setUser}
+      />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/jobs" component={Jobs} />
+        <Route path="/jobs/:id" component={JobsInfo} />
+        <Route path="/profile" component={Profile} />
+        <Route path="/signup" exact 
+            render={
+                <SignUp 
+                    user={user}
+                    handleLogout={handleLogout}
+                    setUser={setUser}
+                />
+            } 
+        />
+      </Switch>
+      <Footer />
+    </AuthContext.Provider>
+  );
+};
 
 export default Main;

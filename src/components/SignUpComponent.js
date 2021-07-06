@@ -69,16 +69,20 @@ class SignUp extends Component {
           if (data.err.errors) {
             this.setState({ errorMsg: "Invalid email" });
             this.setState({ successMsg: null });
+            this.props.setLoggedIn(false);
           }
           // Display username exists error
           else if (data.err) {
             this.setState({ errorMsg: data.err.message });
             this.setState({ successMsg: null });
+            this.props.setLoggedIn(false);
           }
           // No error
           else {
-            localStorage.setItem("user", data.user);
-            localStorage.setItem("isAuthenticated", 1);
+            // localStorage.setItem("user", data.user);
+            // localStorage.setItem("isAuthenticated", 1);
+            this.props.setLoggedIn(true);
+            this.props.setUser(data.user);
             setTimeout(() => {
               this.setState({ successMsg: "Login successful!" });
               this.setState({ errorMsg: null });

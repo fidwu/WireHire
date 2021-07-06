@@ -1,22 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Experience from "./ExperienceComponent";
 import "../profile.scss";
 import Education from "./EducationComponent";
 import About from "./ProfileAbout";
 import Skills from "./SkillsComponent";
+import AuthContext from "./Auth";
 
 const Profile = (props) => {
   const [userProfile, setUserProfile] = useState([]);
 
+  console.log(userProfile);
+
+  const { user } = useContext(AuthContext);
+  console.log(user);
+
   useEffect(() => {
     console.log("ready to fetch");
-    console.log(props.user);
 
     const fetchProfileData = async () => {
       try {
-        const username = props.user;
+        console.log(user);
         // let username = localStorage.getItem('user');
-        const result = await fetch(`profile/${username}`);
+        const result = await fetch(`profile/${user}`);
         const body = await result.json();
         console.log(body);
         setUserProfile(body);
@@ -26,7 +31,7 @@ const Profile = (props) => {
     };
 
     fetchProfileData();
-  }, []);
+  }, [user]);
 
   if (userProfile.length !== 0) {
       console.log(userProfile);

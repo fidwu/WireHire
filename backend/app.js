@@ -31,8 +31,7 @@ app.use('/profile', profileRouter);
 
 const mongoose = require('mongoose');
 
-const url = 'mongodb://localhost:27017/wirehire';
-const connect = mongoose.connect(url, {
+const connect = mongoose.connect(process.env.MONGODB_URI, {
   useCreateIndex: true,
   useFindAndModify: false,
   useNewUrlParser: true,
