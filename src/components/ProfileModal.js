@@ -1,12 +1,10 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import '../profile.scss';
 
 const ProfileModal = (props) => {
-
-    //const [modal, setModal] = useState(false);
-
-    //const toggle = () => setModal(!modal);
 
     return (
         <Modal isOpen={props.isOpen} toggle={props.toggle} centered={true}>
@@ -41,11 +39,28 @@ export const EducationModal = (props) => {
                         <Row>
                             <Col>
                                 <Label htmlFor="startdate">Start Date</Label>
-                                <Input type="text" id="startdate" name="startdate" placeholder="Start Date" defaultValue={props.startDate || ''} onChange={props.handleChange} />
+                                <DatePicker
+                                    className="form-control"
+                                    selected={props.startDate}
+                                    onChange={(date) => props.setStartDate(date)}
+                                    placeholderText="mm/yy"
+                                    selectsStart
+                                    dateFormat="MM/yy"
+                                    showMonthYearPicker
+                                />
                             </Col>
                             <Col>
                                 <Label htmlFor="enddate">End Date</Label>
-                                <Input type="text" id="enddate" name="enddate" placeholder="End Date" defaultValue={props.endDate || ''} onChange={props.handleChange} />
+                                <DatePicker
+                                    className="form-control"
+                                    selected={props.endDate}
+                                    onChange={(date) => { console.log(date); props.setEndDate(date) }}
+                                    selectsEnd
+                                    minDate={props.startDate}
+                                    placeholderText="mm/yy"
+                                    dateFormat="MM/yy"
+                                    showMonthYearPicker
+                                />
                             </Col>
                         </Row>
                     </FormGroup>
@@ -80,11 +95,28 @@ export const ExperienceModal = (props) => {
                         <Row>
                             <Col>
                                 <Label htmlFor="startdate">Start Date</Label>
-                                <Input type="text" id="startdate" name="startdate" placeholder="Start Date" defaultValue={props.startDate || ''} onChange={props.handleChange} />
+                                <DatePicker
+                                    className="form-control"
+                                    selected={props.startDate}
+                                    onChange={(date) => props.setStartDate(date)}
+                                    selectsStart
+                                    placeholderText="mm/yy"
+                                    dateFormat="MM/yy"
+                                    showMonthYearPicker
+                                />
                             </Col>
                             <Col>
                                 <Label htmlFor="enddate">End Date</Label>
-                                <Input type="text" id="enddate" name="enddate" placeholder="End Date" defaultValue={props.endDate || ''} onChange={props.handleChange} />
+                                <DatePicker
+                                    className="form-control"
+                                    selected={props.endDate}
+                                    onChange={(date) => props.setEndDate(date)}
+                                    selectsEnd
+                                    minDate={props.startDate}
+                                    placeholderText="mm/yy"
+                                    dateFormat="MM/yy"
+                                    showMonthYearPicker
+                                />
                             </Col>
                         </Row>
                     </FormGroup>

@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const experienceSchema = new Schema({
-    title: String,
     company: String,
+    title: String,
     startDate: Date,
     endDate: Date,
     description: String

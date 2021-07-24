@@ -2,12 +2,16 @@
 
     margin-top: 2em;
 
-    .experiencesSection, .educationSection, .aboutSection,.skillsSection {
+    .experiencesSection, .educationSection, .aboutSection, .skillsSection {
         background-color: #EBF6FF;
         margin: 1vh 15vw;
         border-radius: 5px;
         margin-bottom: 2em;
         border: 1px solid lightgray;
+    }
+
+    .experiencesSection h2, .educationSection h2 {
+        font-size: 1.5em;
     }
 
     .aboutSection {
@@ -94,5 +98,12 @@
     .modal-dialog {
         max-width: 800px !important;
         width: 700px;
+    }
+}
+
+// modal form styling
+.modal-dialog {
+    .react-datepicker-wrapper {
+        width: 100%;
     }
 }

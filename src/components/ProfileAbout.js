@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
 import '../profile.scss';
-import { User } from '../shared/UserProfile';
 
 const About = (props) => {
 
-    const aboutUser = User[0]['about'];
-
     console.log(props.profile);
+
+    const profile = props.profile;
 
     const [modal, setModal] = useState(false);
     const [inputs, setInputs] = useState({});

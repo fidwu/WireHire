@@ -5,53 +5,53 @@ import Education from "./EducationComponent";
 import About from "./ProfileAbout";
 import Skills from "./SkillsComponent";
 import AuthContext from "./Auth";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProfile } from "../redux/profile";
 
-const Profile = (props) => {
-  const [userProfile, setUserProfile] = useState([]);
-
-  console.log(userProfile);
+const Profile = () => {
+  const dispatch = useDispatch();
 
   const { user } = useContext(AuthContext);
   console.log(user);
 
   useEffect(() => {
-    console.log("ready to fetch");
+    console.log("go into here please");
+    console.log(user);
+    if (user) {
+      dispatch(fetchProfile(user));
+    }
+  }, [dispatch, user]);
 
-    const fetchProfileData = async () => {
-      try {
-        console.log(user);
-        // let username = localStorage.getItem('user');
-        const result = await fetch(`profile/${user}`);
-        const body = await result.json();
-        console.log(body);
-        setUserProfile(body);
-      } catch (err) {
-        console.error("Error:", err);
-      }
-    };
+  const profile = useSelector((state) => state.profile);
+  console.log(profile);
 
-    fetchProfileData();
-  }, [user]);
-
-  if (userProfile.length !== 0) {
-      console.log(userProfile);
-    return (
-      <div className="profile">
-        <div className="aboutSection">
-          <About profile={userProfile} />
+  if (user) {
+    console.log(profile);
+    if (profile.status === "loading") {
+      return <h2>Loading</h2>
+    }
+    else if (profile.status === "failed") {
+      return <h2>Error</h2>
+    }
+    else {
+      return (
+        <div className="profile">
+          <div className="aboutSection">
+            <About profile={profile.data} />
+          </div>
+          <Experience />
+          <Education />
+          {/* <Skills /> */}
         </div>
-        <Experience experience={userProfile[0].experience} />
-        <Education education={userProfile[0].education} />
-        {/* <Skills /> */}
-      </div>
-    );
-  } 
+      );
+    }
+  }
   else {
     return (
       <div className="profile">
-        <h5>Sign in or create an account to create a profile</h5>
+        <h5>Sign in or create an account to view profile.</h5>
       </div>
-    );
+    )
   }
 };
 

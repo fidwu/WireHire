@@ -44,7 +44,7 @@ class SignUp extends Component {
     };
     console.log(register);
     if (this.allFilled(register)) {
-      fetch("/users/signup", {
+      fetch("api/users/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

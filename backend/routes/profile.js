@@ -24,6 +24,7 @@ profileRouter.route('/:userId/:category')
                 $push: { [req.params.category]: req.body }
             }, { new: true })
             .then(user => {
+                console.log(user);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.json(user);
@@ -39,12 +40,12 @@ profileRouter.route('/:userId/:category/:itemId')
         console.log(req.body);
         Profile
             .findOneAndUpdate({username: req.params.userId, 
-                "experience": { $elemMatch: { "_id": objectId } }
+                [req.params.category]: { $elemMatch: { "_id": objectId } }
             }, {
-                $set: { "experience.$": { "_id": objectId, ...req.body } }
+                $set: { [`${req.params.category}.$`]: { "_id": objectId, ...req.body } }
             },  { new: true })
             .then(user => {
-                console.log(user.experience);
+                console.log(user);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.json(user);

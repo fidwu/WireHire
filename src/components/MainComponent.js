@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import Home from "./HomeComponent";
 import Jobs from "./JobsComponent";
 import Header from "./HeaderComponent";
@@ -13,8 +13,10 @@ const Main = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState("");
 
+  const history = useHistory();
+
   useEffect(() => {
-    fetch("/users/auth", {
+    fetch("api/users/auth", {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -37,7 +39,7 @@ const Main = () => {
 
   const handleLogout = () => {
     console.log("LOGOUT");
-    fetch("/users/logout", {
+    fetch("api/users/logout", {
       headers: {
         "Content-Type": "application/json",
       },
@@ -47,7 +49,7 @@ const Main = () => {
         console.log(res);
         setIsLoggedIn(false);
         setUser(null);
-        // this.props.history.push("/");
+        history.push("/");
         return res.json();
       })
       .catch((error) => {
@@ -68,7 +70,7 @@ const Main = () => {
         <Route path="/jobs/:id" component={JobsInfo} />
         <Route path="/profile" component={Profile} />
         <Route path="/signup" exact 
-            render={
+            render={() => 
                 <SignUp 
                     user={user}
                     handleLogout={handleLogout}

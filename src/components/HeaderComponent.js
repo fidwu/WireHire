@@ -43,7 +43,7 @@ class Header extends Component {
                 username: this.username.value,
                 password: this.password.value
             }
-            fetch('/users/login', {
+            fetch('api/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
