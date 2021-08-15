@@ -30,6 +30,9 @@ export const postProfile = createAsyncThunk(
 export const editProfile = createAsyncThunk(
     "profile/editProfile",
     async ({user, category, itemId, payload}) => {
+        console.log("user: ", user);
+        console.log("category: ", category);
+        console.log("payload: ", payload);
         const settings = {
             method: 'PUT',
             headers: {
@@ -37,7 +40,13 @@ export const editProfile = createAsyncThunk(
             },
             body: JSON.stringify(payload)
         };
-        const response = await fetch(`api/profile/${user}/${category}/${itemId}`, settings);
+        let response = "";
+        if (!category && !itemId) {
+            response = await fetch(`api/profile/${user}`, settings);
+        }
+        else {
+            response = await fetch(`api/profile/${user}/${category}/${itemId}`, settings);
+        }
         const data = await response.json();
         return data;
     }

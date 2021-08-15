@@ -15,6 +15,21 @@ profileRouter.route('/:userId')
             })
             .catch(err => next(err));
     })
+    .put((req, res, next) => {
+        Profile
+            .findOneAndUpdate({username: req.params.userId}, {
+                phoneNum: req.body.phoneNum
+            }, {
+                new: true
+            })
+            .then(user => {
+                console.log(user);
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(user);
+            })
+            .catch(err => next(err))
+    })
 
 profileRouter.route('/:userId/:category')
     .post((req, res, next) => {

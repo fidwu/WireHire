@@ -6,6 +6,7 @@ const experienceSchema = new Schema({
     title: String,
     startDate: Date,
     endDate: Date,
+    isCurrent: Boolean,
     description: String
 });
 

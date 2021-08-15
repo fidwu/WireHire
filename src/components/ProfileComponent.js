@@ -15,7 +15,6 @@ const Profile = () => {
   console.log(user);
 
   useEffect(() => {
-    console.log("go into here please");
     console.log(user);
     if (user) {
       dispatch(fetchProfile(user));

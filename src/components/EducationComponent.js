@@ -17,14 +17,15 @@ const Education = () => {
         degree: "",
         gpa: ""
     });
-    const [startDate, setStartDate] = useState(false);
-    const [endDate, setEndDate] = useState(false);
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
     // opening and closing modals
     const [modalID, setModalID] = useState(null);
     const toggleModal = (e, idx) => setModalID(idx);
 
     const [modal, setModal] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
     const toggleAddForm = () => {
         setModal(!modal);
         // reset form to empty state
@@ -33,8 +34,9 @@ const Education = () => {
             degree: "",
             gpa: ""
         });
-        setStartDate(false);
-        setEndDate(false);
+        setStartDate(null);
+        setEndDate(null);
+        setErrorMsg("");
     }
 
     const { user } = useContext(AuthContext);
@@ -58,12 +60,6 @@ const Education = () => {
     const editItem = (education) => {
         console.log(education);
         setEduInputs(education);
-        if (!education.startDate) {
-            setStartDate(false);
-        }
-        if (!education.endDate) {
-            setEndDate(false);
-        }
     }
 
     const handleSubmit = (e, educationId = null) => {
@@ -74,26 +70,33 @@ const Education = () => {
             ...(endDate && { endDate })
         };
         console.log(payload);
+
+        const requiredFieldsFilled = payload.school && payload.degree && payload.startDate && payload.endDate;
         
-        if (educationId) {
-            const updateArgs = {
-                user,
-                category: "education",
-                itemId: educationId,
-                payload
-            };
-            console.log(payload);
-            dispatch(editProfile(updateArgs));
-            toggleModal();
+        if (requiredFieldsFilled) {
+            if (educationId) {
+                const updateArgs = {
+                    user,
+                    category: "education",
+                    itemId: educationId,
+                    payload
+                };
+                console.log(payload);
+                dispatch(editProfile(updateArgs));
+                toggleModal();
+            }
+            else {
+                const postArgs = {
+                    user,
+                    category: "education",
+                    payload
+                };
+                dispatch(postProfile(postArgs));
+                toggleAddForm();
+            }
         }
         else {
-            const postArgs = {
-                user,
-                category: "education",
-                payload
-            };
-            dispatch(postProfile(postArgs));
-            toggleAddForm();
+            setErrorMsg("Required fields cannot be empty.");
         }
     }
 
@@ -116,6 +119,7 @@ const Education = () => {
                     isOpen={modal}
                     toggle={toggleAddForm}
                     action="Add"
+                    errorMsg={errorMsg}
                     startDate={startDate}
                     setStartDate={setStartDate}
                     setEndDate={setEndDate}
@@ -142,12 +146,13 @@ const Education = () => {
                                 isOpen={modalID === idx}
                                 toggle={toggleModal}
                                 action="Edit"
+                                errorMsg={errorMsg}
                                 school={education.school}
                                 degree={education.degree}
-                                startDate={education.startDate ? new Date(education.startDate) : startDate}
+                                startDate={startDate || education.startDate}
                                 setStartDate={setStartDate}
                                 setEndDate={setEndDate}
-                                endDate={education.endDate ? new Date(education.endDate) : endDate}
+                                endDate={endDate || education.endDate}
                                 gpa={education.gpa}
                                 handleChange={handleChange}
                                 submit={e => handleSubmit(e, education._id)}

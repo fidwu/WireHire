@@ -134,7 +134,7 @@ class Header extends Component {
                     timeout={300}
                     classNames="dialog"
                 >
-                <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal} style={modalStyles} contentLabel="modal" closeTimeoutMS={2000}>
+                <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal} style={modalStyles} closeTimeoutMS={2000}>
                     <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
                     <ModalBody>
                         <Form onSubmit={this.handleSubmit}>
