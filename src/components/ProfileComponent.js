@@ -1,25 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import Experience from "./ExperienceComponent";
 import "../profile.scss";
 import Education from "./EducationComponent";
 import About from "./ProfileAbout";
 import Skills from "./SkillsComponent";
 import AuthContext from "./Auth";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchProfile } from "../redux/profile";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-  const dispatch = useDispatch();
 
   const { user } = useContext(AuthContext);
   console.log(user);
-
-  useEffect(() => {
-    console.log(user);
-    if (user) {
-      dispatch(fetchProfile(user));
-    }
-  }, [dispatch, user]);
 
   const profile = useSelector((state) => state.profile);
   console.log(profile);

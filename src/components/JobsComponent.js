@@ -1,32 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import JobPosting from './JobPostingComponent';
 import Search from './SearchComponent';
-import { Postings } from '../shared/Postings';
 import '../jobs.scss';
+import { useDispatch, useSelector } from "react-redux";
 
 const Jobs = () => {
 
     const [keywordInput, setKeywordInput] = useState('');
     const [locationInput, setLocationInput] = useState('');
-    const [jobDisplay, setJobDisplay] = useState(Postings);
-    const [originalList, setOrignalList] = useState(jobDisplay);
+
+    const jobs = useSelector((state) => state.jobs);
+
+    const [jobDisplay, setJobDisplay] = useState(jobs?.data);
     const [emptyJobMsg, setEmptyJobMsg] = useState("");
+
+    useEffect(() => {
+        setJobDisplay(jobs?.data);
+    },[jobs])
 
     const searchKeywordUpdated = (e) => {
         const searchQuery = e.target.value;
         setKeywordInput(searchQuery);
+        setEmptyJobMsg("");
+        if (!searchQuery) {
+            setJobDisplay(jobs.data);
+        }
     }
 
     const searchLocationUpdated = (e) => {
         const locationQuery = e.target.value;
         setLocationInput(locationQuery);
+        setEmptyJobMsg("");
+        if (!locationQuery) {
+            setJobDisplay(jobs.data);
+        }
     }
 
     const handleSearch = (e) => {
         e.preventDefault();
         setKeywordInput(keywordInput);
         setLocationInput(locationInput);
-        const filterDisplay = Postings.filter(job => {
+        const filterDisplay = jobDisplay.filter(job => {
             if (keywordInput && locationInput) {
                 return (
                     job.role.toLowerCase().includes(keywordInput.toLowerCase()) &&
@@ -51,19 +65,6 @@ const Jobs = () => {
         else {
             setEmptyJobMsg("Sorry, no jobs match your search.");
         }
-        setOrignalList(filterDisplay);
-    }
-
-    const handleSort = (e) => {
-        let sortBy = e.target.value;
-        let sortedList = [...jobDisplay];
-        if (sortBy === 'date') {
-            sortedList.sort((a, b) => new Date(a.date) - new Date(b.date)).reverse();
-            setJobDisplay(sortedList);
-        }
-        else {
-            setJobDisplay(originalList);
-        }
     }
 
     return (
@@ -74,17 +75,22 @@ const Jobs = () => {
                 handleSearch={(e) => handleSearch(e)}
                 locationInput={locationInput}
                 locationInputChanged={e => searchLocationUpdated(e)}
-                handleSort={e => handleSort(e)}
             />
-            {!emptyJobMsg ?
+            {jobs.status === "loading" && 
+                <h2>Loading...</h2>
+            }
+            {jobs.status === "failed" &&
+                <h2>Error getting jobs</h2>
+            }
+            {jobs.status === "success" && !emptyJobMsg ?
                 jobDisplay.map((job) => (
                     <JobPosting
-                        key={job.id}
+                        key={job._id}
                         role={job.role}
                         description={job.description}
-                        date={job.date}
+                        date={job.datePosted}
                         location={job.location}
-                        id={job.id}
+                        id={job._id}
                     />
                 ))
                 :

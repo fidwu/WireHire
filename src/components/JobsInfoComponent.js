@@ -1,22 +1,25 @@
 import React from 'react';
-import { Postings } from '../shared/Postings';
 import '../jobs.scss';
 import FullJobPosting from './FullPostingComponent';
-//import Apply from './ApplyComponent';
+import { useSelector } from "react-redux";
 
 const JobsInfo = (props) => {
 
     const { match: { params } } = props;
 
+    const jobs = useSelector((state) => state.jobs);
+
+    console.log(jobs);
+
     return (
         <div className="jobs container">
-            {Postings.filter(job => job.id === parseInt(params.id)).map(job =>
+            {jobs.data.filter(job => job._id === params.id).map(job =>
                 <FullJobPosting
-                    key={job.id}
+                    key={job._id}
                     role={job.role}
                     description={job.description}
-                    date={job.date}
-                    id={job.id}
+                    date={job.datePosted}
+                    id={job._id}
                 />
             )}
         </div>

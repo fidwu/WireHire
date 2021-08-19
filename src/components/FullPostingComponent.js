@@ -1,4 +1,5 @@
 import { Row, Col, Button } from 'reactstrap';
+import format from 'date-fns/format';
 
 const FullJobPosting = (props) => {
     return (
@@ -8,7 +9,7 @@ const FullJobPosting = (props) => {
                 <Button color="primary">Apply</Button>
             </Row>
             <Row>
-                <p>Posted: {props.date}</p>
+                <p>Posted: {format(new Date(props.date), 'M/d/yy')}</p>
             </Row>
             <Row>
                 <div id="description">

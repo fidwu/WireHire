@@ -8,15 +8,20 @@ import Profile from "./ProfileComponent";
 import JobsInfo from "./JobsInfoComponent";
 import SignUp from "./SignUpComponent";
 import AuthContext from "./Auth";
+import { fetchProfile } from "../redux/profile";
+import { fetchJobs } from "../redux/jobs";
+import { useDispatch } from "react-redux";
 
 const Main = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState("");
 
   const history = useHistory();
+  const dispatch = useDispatch();
+  console.log(user);
 
   useEffect(() => {
-    fetch("api/users/auth", {
+    fetch("/api/users/auth", {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -25,6 +30,9 @@ const Main = () => {
     })
       .then((res) => {
         console.log(res);
+        if (!res.ok) {
+          throw new Error(res.err);
+        }
         return res.json();
       })
       .then((data) => {
@@ -37,9 +45,17 @@ const Main = () => {
       });
   }, []);
 
+  useEffect(() => {
+    console.log(user);
+    dispatch(fetchJobs());
+    if (user) {
+      dispatch(fetchProfile(user));
+    }
+  }, [dispatch, user]);
+
   const handleLogout = () => {
     console.log("LOGOUT");
-    fetch("api/users/logout", {
+    fetch("/api/users/logout", {
       headers: {
         "Content-Type": "application/json",
       },

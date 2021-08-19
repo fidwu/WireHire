@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
+import format from 'date-fns/format';
 
 const JobPosting = (props) => {
     return (
         <div className="job-posting text-left">
             <Row>
                 <Col className="p-0 font-weight-bold job-posting-role">Role: {props.role}</Col>
-                <Col className="text-right">Posted: {props.date}</Col>
+                <Col className="text-right">Posted: {format(new Date(props.date), 'M/d/yy')}</Col>
             </Row>
             <Row>
                 <div className="job-posting-location">{props.location}</div>
