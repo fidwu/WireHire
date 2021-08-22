@@ -8,7 +8,10 @@ const jobsSchema = new Schema({
     datePosted: Date,
     appliedUsers: [{
         username: String,
-        dateApplied: Date
+        dateApplied: {
+            type: Date, 
+            default: Date.now
+        }
     }, {
         timestamps: true
     }]

@@ -9,24 +9,37 @@ export const fetchJobs = createAsyncThunk(
             throw new Error(message);
         }
         const data = await response.json();
-        console.log(data);
         return data;
     }
 );
 
-export const postJob = createAsyncThunk(
-    "profile/postJob",
-    async ({user, jobId, payload}) => {
+export const applyToJob = createAsyncThunk(
+    "profile/applyToJob",
+    async ({user, jobId}) => {
         const settings = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify({
+                'username': user
+            })
         };
-        const response = await fetch(`/api/jobs/${user}/${jobId}`, settings);
+        const response = await fetch(`/api/jobs/${jobId}`, settings);
         const data = await response.json();
-        console.log("post data:", data);
+        return data;
+    }
+)
+
+export const getAppliedJobs = createAsyncThunk(
+    "profile/getAppliedJobs",
+    async (user) => {
+        const response = await fetch(`/api/jobs/${user}`);
+        if (!response.ok) {
+            const message = `An error has occured: ${response.status}`;
+            throw new Error(message);
+        }
+        const data = await response.json();
         return data;
     }
 )
@@ -36,11 +49,19 @@ const jobsSlice = createSlice({
     initialState: {
         status: "loading",
         data: [],
-        error: ""
+        error: "",
+        appliedStatus: "",
+        applied: []
+    },
+    reducers: {
+        resetJobs: (state) => {
+            state.applied = [];
+        }
     },
     extraReducers: {
         [fetchJobs.pending]: (state, action) => {
             state.status = "loading";
+            state.appliedStatus = "";
         },
         [fetchJobs.fulfilled]: (state, { payload }) => {
             state.data = payload;
@@ -52,17 +73,26 @@ const jobsSlice = createSlice({
             state.error = "Couldn't fetch data";
         },
 
-        [postJob.fulfilled]: (state, { payload }) => {
-            state.data = [payload];
-            state.status = "success";
+        [applyToJob.pending]: (state, { payload }) => {
+            state.appliedStatus = "loading";
+        },
+        [applyToJob.fulfilled]: (state, { payload }) => {
+            const index = state.data.findIndex(jobsData => jobsData._id === payload._id);
+            state.data[index] = payload;
+            state.appliedStatus = "success";
             state.error = ""
-        }
+        },
+        [applyToJob.rejected]: (state, action ) => {
+            state.appliedStatus = "failed";
+        },
 
+        [getAppliedJobs.fulfilled]: (state, { payload }) => {
+            state.applied = payload;
+            state.status = "success";
+        }
     }
 })
 
-export const { filterJobs, sortJobsByDate } = jobsSlice.actions;
-
-// export const jobsSelector = state => state.jobs;
+export const { resetJobs } = jobsSlice.actions;
 
 export default jobsSlice.reducer;

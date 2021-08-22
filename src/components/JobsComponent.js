@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import JobPosting from './JobPostingComponent';
 import Search from './SearchComponent';
 import '../jobs.scss';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Jobs = () => {
 

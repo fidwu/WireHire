@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchProfile = createAsyncThunk(
     "profile/fetchProfile",
     async (user) => {
-        const response = await fetch(`api/profile/${user}`);
+        const response = await fetch(`/api/profile/${user}`);
         const data = await response.json();
         console.log(data);
         return data;
@@ -20,7 +20,7 @@ export const postProfile = createAsyncThunk(
             },
             body: JSON.stringify(payload)
         };
-        const response = await fetch(`api/profile/${user}/${category}`, settings);
+        const response = await fetch(`/api/profile/${user}/${category}`, settings);
         const data = await response.json();
         console.log("post data:", data);
         return data;
@@ -61,7 +61,6 @@ export const deleteProfileItem = createAsyncThunk(
                 'Content-Type': 'application/json',
             }
         };
-        console.log("url: ", user, category, itemId);
         const response = await fetch(`api/profile/${user}/${category}/${itemId}`, settings);
         const data = await response.json();
         return data;
@@ -74,6 +73,13 @@ const profileSlice = createSlice({
         status: "loading",
         data: [],
         error: ""
+    },
+    reducers: {
+        resetProfile: (state) => {
+            state.status = "loading";
+            state.data = [];
+            state.error = "";
+        }
     },
     extraReducers: {
         [fetchProfile.pending]: (state, action) => {
@@ -109,8 +115,6 @@ const profileSlice = createSlice({
     }
 })
 
-export const { getProfile, getProfileSuccess, getProfileFailure } = profileSlice.actions;
-
-export const profileSelector = state => state.profile;
+export const { resetProfile } = profileSlice.actions;
 
 export default profileSlice.reducer;

@@ -18,18 +18,47 @@ JobsRouter.route('/')
             })
     })
 
-JobsRouter.route('/:userId/:jobId')
+JobsRouter.route('/:jobId')
     .post((req, res, next) => {
-        console.log(req.body);
+        Jobs.findOne({ 
+            _id: req.params.jobId,
+            'appliedUsers.username': req.body.username 
+        }, { new: true })
+            .then(job => {
+                // already applied
+                if (job) {
+                    res.statusCode = 405;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(job);
+                }
+                // add user to appliedUsers array
+                else {
+                    Jobs.findByIdAndUpdate(req.params.jobId, {
+                        $push: {
+                            "appliedUsers": req.body
+                        }
+                    }, { new: true })
+                    .then(job => {
+                        console.log(job);
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.json(job); 
+                    })
+                    .catch(err => next(err));
+                }
+            })
+            .catch(err => next(err))
+    })
+
+JobsRouter.route('/:userId')
+    .get((req, res, next) => {
         Jobs
-            .findOneAndUpdate({username: req.params.userId, _id: req.params.jobId}, {
-                $push: { appliedUsers: req.body }
-            }, { new: true })
-            .then(user => {
-                console.log(user);
+            .find({ "appliedUsers.username": req.params.userId })
+            .then(job => {
+                console.log(job);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.json(user);
+                res.json(job);
             })
             .catch(err => next(err))
     })

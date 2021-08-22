@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route, useHistory } from "react-router-dom";
+import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import Home from "./HomeComponent";
 import Jobs from "./JobsComponent";
 import Header from "./HeaderComponent";
@@ -8,8 +8,8 @@ import Profile from "./ProfileComponent";
 import JobsInfo from "./JobsInfoComponent";
 import SignUp from "./SignUpComponent";
 import AuthContext from "./Auth";
-import { fetchProfile } from "../redux/profile";
-import { fetchJobs } from "../redux/jobs";
+import { fetchProfile, resetProfile } from "../redux/profile";
+import { fetchJobs, getAppliedJobs, resetJobs } from "../redux/jobs";
 import { useDispatch } from "react-redux";
 
 const Main = () => {
@@ -18,7 +18,11 @@ const Main = () => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  console.log(user);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     fetch("/api/users/auth", {
@@ -50,11 +54,15 @@ const Main = () => {
     dispatch(fetchJobs());
     if (user) {
       dispatch(fetchProfile(user));
+      dispatch(getAppliedJobs(user));
+    }
+    else {
+      dispatch(resetProfile());
+      dispatch(resetJobs());
     }
   }, [dispatch, user]);
 
   const handleLogout = () => {
-    console.log("LOGOUT");
     fetch("/api/users/logout", {
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +70,6 @@ const Main = () => {
       credentials: "include",
     })
       .then((res) => {
-        console.log(res);
         setIsLoggedIn(false);
         setUser(null);
         history.push("/");

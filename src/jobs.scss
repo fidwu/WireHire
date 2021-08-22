@@ -41,8 +41,16 @@
         box-shadow: 5px 5px 5px lightgray;
     }
 
-    a {
+    .job-posting:hover {
+        cursor: pointer;
+    }
+
+    a.readMore {
         color: #007bff;
+    }
+
+    .btn.disabled {
+        pointer-events: auto;
     }
 
     .job-posting-role {
