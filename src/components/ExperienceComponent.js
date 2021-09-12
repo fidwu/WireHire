@@ -42,18 +42,21 @@ const Experience = () => {
 
     // sort from most recent to oldest
     profileExpSorted.sort((a, b) => {
-        if (a.isCurrent || b.isCurrent) {
+        if (a.isCurrent) {
             return -1;
         }
-        if (a.endDate > b.endDate) {
-            return -1;
+        else {
+            if (a.endDate > b.endDate) {
+                return -1;
+            }
+            else if (a.endDate < b.endDate) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
         }
-        if (a.endDate < b.endDate) {
-            return 1;
-        }
-        return 0;
     })
-    console.log(profileExpSorted);
 
     // experience form values
     const [experience, setExperience] = useState({
@@ -92,10 +95,7 @@ const Experience = () => {
             ...experience, 
             ...(startDate && { startDate: new Date(startDate) }), 
             ...({ isCurrent }),
-            ...(endDate ? 
-                { endDate: new Date(endDate) } 
-                : 
-                { endDate: null }
+            ...(endDate &&  { endDate: new Date(endDate) } 
             )
         };
         console.log(payload);

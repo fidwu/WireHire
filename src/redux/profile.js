@@ -30,9 +30,6 @@ export const postProfile = createAsyncThunk(
 export const editProfile = createAsyncThunk(
     "profile/editProfile",
     async ({user, category, itemId, payload}) => {
-        console.log("user: ", user);
-        console.log("category: ", category);
-        console.log("payload: ", payload);
         const settings = {
             method: 'PUT',
             headers: {

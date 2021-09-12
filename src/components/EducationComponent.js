@@ -45,6 +45,22 @@ const Education = () => {
     const profileEdu = useSelector((state) => state.profile.data[0].education);
     console.log(profileEdu);
 
+    // make a copy to sort by date
+    let profileEduSorted = [...profileEdu];
+
+    // sort from most recent to oldest
+    profileEduSorted.sort((a, b) => {
+        if (a.endDate > b.endDate) {
+            return -1;
+        }
+        else if (a.endDate < b.endDate) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    })
+
     const handleChange = (e) => {
         setEduInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
     }
@@ -128,8 +144,8 @@ const Education = () => {
                     submit={handleSubmit}
                 />
             </div>
-            {profileEdu.length ?
-                profileEdu.map((education, idx) => {
+            {profileEduSorted.length ?
+                profileEduSorted.map((education, idx) => {
                     return (
                         <div className="education text-left" key={idx}>
                             <Row className="my-2 mx-0 w-100">

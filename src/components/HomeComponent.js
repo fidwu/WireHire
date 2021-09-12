@@ -1,6 +1,6 @@
 import React from 'react';
-import '../jobs.scss';
 import {Row, Col, Button} from 'reactstrap';
+import {Card, CardBody, CardImg, CardText, CardTitle, CardLink, CardDeck} from 'reactstrap';
 import { Carousel } from "react-bootstrap";
 import image1 from '../images/salaryguide.jpg';
 import image2 from '../images/best-jobs-2021-badge-graphic.svg';
@@ -9,24 +9,26 @@ import image5 from '../images/google2.jpg';
 import image6 from '../images/microsoft2.jpg';
 import image7 from '../images/intel2.jpg';
 import image8 from '../images/amazon2.jpg';
-
-import {Card, CardBody, CardImg, CardMedia, CardText, CardTitle, CardLink} from 'reactstrap';
-
+import { useHistory } from "react-router-dom";
 
 const Home = () => {
+
+    const history = useHistory();
+
         return(
             <React.Fragment>
                 <style>
                     @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap');
                 </style>
                 <div className="container-fluid no-padding backgroundimage">
+                    <div className="backgroundimage-overlay d-block d-sm-none"></div>
                     <div className="row h-100 align-items-center">
-                        <div className="col-md-6 top-content align-items-center">
-                            <div style={{ fontSize: 'xx-large' }} >Dream Jobs. Top Talent. All in One Place.</div>
+                        <div className="col-sm-6 top-content align-items-center">
+                            <div style={{ fontSize: '4vh' }} >Dream Jobs. Top Talent. All in One Place.</div>
                             <br />
                             <p style={{ fontSize: 'large' }}>The right IT Staffing & Managed Solutions partner is here and ready to transform the horizon with empowering new possibilities.</p>
                             <br />
-                            <Button href="/jobs"> Find a Job </Button>
+                            <Button onClick={() => history.push("/jobs")}> Find a Job </Button>
                         </div>
                     </div>
                 </div>
@@ -80,10 +82,10 @@ const Home = () => {
                     </Row>                
                 </div>
                     
-                <div className="container">
-                    <Row>
-                        <Col md={3}>
-                            <Card style={{ width: '18rem'}}>
+                <div className="container card-container">
+                    <Row className="d-flex justify-content-center">
+                        <Col lg={4} sm={6}>
+                            <Card className="mb-3">
                                 <CardImg  variant="top" src={image1}/>
                                 <CardBody id="show-link">
                                     <CardTitle style={{ fontSize: "x-large"}}>2021 Salary Guide</CardTitle>
@@ -94,8 +96,8 @@ const Home = () => {
                                 </CardBody>
                             </Card>
                         </Col>
-                        <Col md={{size: 3, offset: 1}}>
-                            <Card style={{ width: '18rem'}}>
+                        <Col lg={{size: 4}} sm={6}>
+                            <Card className="mb-3">
                                 <CardImg variant="top" src={image2}/>
                                 <CardBody id="show-link">
                                     <CardTitle style={{ fontSize: "x-large"}}>100 Best Jobs</CardTitle>
@@ -106,8 +108,8 @@ const Home = () => {
                                 </CardBody>
                             </Card>
                         </Col>
-                        <Col md={{size: 3, offset: 1}}>
-                            <Card style={{ width: '18rem'}}>
+                        <Col lg={{size: 4}} sm={6}>
+                            <Card className="mb-3">
                                 <CardImg variant="top" src={image3} />
                                 <CardBody id="show-link">
                                     <CardTitle style={{ fontSize: "x-large"}}>Top 5 Skills Employers Look For</CardTitle>

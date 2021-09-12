@@ -17,8 +17,6 @@ class Header extends Component {
 
         this.toggleNav = this.toggleNav.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
-
-        console.log(this.props.user);
     }
 
     toggleNav() {
@@ -69,7 +67,6 @@ class Header extends Component {
                     return res.json();
                 })
                 .then(data => {
-                    console.log(data);
                     this.props.setUser(data.user);
                     setTimeout(() => {
                         this.toggleModal();
@@ -115,13 +112,13 @@ class Header extends Component {
                             </Nav>
                             {this.props.user ? 
                                 <span onClick={this.props.handleLogout}>
-                                    <Button className="navbar-text float-sm-right nav-item-color" variant="outline-success">
+                                    <Button className="navbar-text float-md-right nav-item-color" variant="outline-success">
                                         <i className="fa fa-sign-out fa-lg" /> Logout
                                     </Button>
                                 </span>
                                 :
                                 <span>
-                                    <Button className="navbar-text float-sm-right nav-item-color" variant="outline-success" onClick={this.toggleModal}>
+                                    <Button className="navbar-text float-md-right nav-item-color" variant="outline-success" onClick={this.toggleModal}>
                                         <i className="fa fa-sign-in fa-lg" /> Login
                                     </Button>
                                 </span>

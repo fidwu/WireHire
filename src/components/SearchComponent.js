@@ -14,7 +14,7 @@ const Search = ({keywordInput, keywordInputChanged, handleSearch, locationInput,
                         <Label for="search" className="pr-3 pb-2 labelTitle">Search</Label>
                         <Input type="text" name="search" id="search" placeholder="Keywords" className="mr-2 mb-2 mb-lg-0" value={keywordInput} onChange={keywordInputChanged} />
                         <Input type="text" name="search" id="search" placeholder="City, State" className="mr-2 mb-2 mb-lg-0" value={locationInput} onChange={locationInputChanged} />
-                        <Button className="mb-2 mb-lg-0" onClick={e => handleSearch(e)}>Search</Button>
+                        <Button type="submit" className="mb-2 mb-lg-0" onClick={e => handleSearch(e)}>Search</Button>
                     </FormGroup>
                 </Col>
                 {/* <Col sm="12" lg="4">

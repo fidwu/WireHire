@@ -1,12 +1,5 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Input, Label, Col, Row, Alert } from "reactstrap";
-import { withRouter } from "react-router";
-
-const required = (val) => val && val.length;
-const maxLength = (len) => (val) => !val || val.length <= len;
-const minLength = (len) => (val) => val && val.length >= len;
-const validEmail = (val) =>
-  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
 class SignUp extends Component {
 
@@ -23,8 +16,6 @@ class SignUp extends Component {
   // Check the register object to ensure they are all filled in
   allFilled = (register) => {
     for (var key in register) {
-      console.log(register[key]);
-      console.log()
       if (register[key] === "") {
         this.setState({ errorMsg: "Please fill in all fields." });
         return false;
@@ -42,7 +33,6 @@ class SignUp extends Component {
       password: this.password.value,
       email: this.email.value,
     };
-    console.log(register);
     if (this.allFilled(register)) {
       fetch("/api/users/signup", {
         method: "POST",
@@ -54,8 +44,6 @@ class SignUp extends Component {
         body: JSON.stringify(register),
       })
         .then((res) => {
-          console.log(res);
-          console.log(res.status);
           if (res.status === 200) {
             this.setState({ successMsg: "Login successful!" });
             this.setState({ errorMsg: null });
@@ -63,8 +51,6 @@ class SignUp extends Component {
           return res.json();
         })
         .then((data) => {
-          console.log(data);
-          console.log(data.err);
           // Display email error
           if (data.err.errors) {
             this.setState({ errorMsg: "Invalid email" });
@@ -79,8 +65,6 @@ class SignUp extends Component {
           }
           // No error
           else {
-            // localStorage.setItem("user", data.user);
-            // localStorage.setItem("isAuthenticated", 1);
             this.props.setLoggedIn(true);
             this.props.setUser(data.user);
             setTimeout(() => {
