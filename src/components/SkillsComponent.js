@@ -1,30 +1,76 @@
-import React from 'react';
-import { Badge } from 'reactstrap';
+import React, { useState, useContext } from 'react';
+import { Badge, Button } from 'reactstrap';
 import '../profile.scss';
-import { User } from '../shared/UserProfile';
+import { useDispatch, useSelector } from "react-redux";
+import AuthContext from "./Auth";
+import { SkillsModal } from './ProfileModal';
+import { deleteProfileItem, postProfile } from "../redux/profile";
 
 const Skills = () => {
 
-    const skills = User[0]['skills'];
+    const { user } = useContext(AuthContext);
+    const dispatch = useDispatch();
+
+    const profileSkills = useSelector((state) => state.profile.data[0].skills);
+    console.log(profileSkills);
+
+    const [modal, setModal] = useState(false);
+    const [skill, setSkill] = useState(null);
+    const [errorMsg, setErrorMsg] = useState("");
+
+    const editSkillsModal = () => setModal(!modal);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setSkill(null)
+        
+        if (skill) {
+            const args = {
+                user,
+                category: "skills",
+                payload: { skill }
+            };
+            dispatch(postProfile(args));
+        }
+    }
+
+    const handleDelete = (skillId) => {
+        console.log(skillId)
+        const args = {
+            user,
+            category: "skills",
+            itemId: skillId
+        };
+        dispatch(deleteProfileItem(args));
+    }
 
     return (
         <div className="skillsSection">
-            <div className="align-items-center px-sm-2 py-2 mb-2 header">
+            <div className="align-items-center px-sm-2 py-1 header">
                 <h2>Skills</h2>
-                <h2><i className="fa fa-plus"></i></h2>
+                <Button onClick={editSkillsModal}>Edit</Button>
+                <SkillsModal 
+                    isOpen={modal}
+                    toggle={editSkillsModal}
+                    action="Add"
+                    skill={skill}
+                    setSkill={setSkill}
+                    displaySkills={profileSkills}
+                    delete={handleDelete}
+                    submit={handleSubmit}
+                />
             </div>
             <div className="skills text-left">
                 <div className="d-flex justify-content-center align-items-center flex-wrap mb-3">
-                    {skills.map((skills, idx) => {
-                        if (Object.keys(skills).length !== 0) {
+                    {profileSkills.length ?
+                        profileSkills.map((skills, idx) => {
                             return (
-                                <h4 key={idx} className="m-2"><Badge color="secondary">{skills}</Badge></h4>
+                                <p key={idx} className="m-2"><Badge color="secondary">{skills.skill}</Badge></p>
                             )
-                        }
-                        else {
-                            return <div className="py-4">No skills to display</div>
-                        }
-                    })}
+                        })
+                    : 
+                        <div className="pb-2">No skills to display</div>
+                    }
                 </div>
             </div>
         </div>

@@ -10,7 +10,7 @@
         border: 1px solid lightgray;
     }
 
-    .experiencesSection h2, .educationSection h2 {
+    .experiencesSection h2, .educationSection h2, .skillsSection h2 {
         font-size: 1.5em;
     }
 
@@ -105,5 +105,21 @@
 .modal-dialog {
     .react-datepicker-wrapper {
         width: 100%;
+    }
+}
+
+.skills {
+    .badge {
+        font-weight: 400;
+        font-size: 1em;
+    }
+    
+    .skill-delete {
+        border-radius: 50%;
+        background-color: #EBF6FF;
+        border: none;
+        margin: 5px 2px;
+        font-size: 1em;
+        padding: 3px 5px;
     }
 }

@@ -31,7 +31,7 @@ const Profile = () => {
           </div>
           <Experience />
           <Education />
-          {/* <Skills /> */}
+          <Skills />
         </div>
       );
     }

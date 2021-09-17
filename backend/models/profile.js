@@ -34,7 +34,10 @@ const profileSchema = new Schema({
         type: String
     },
     experience: [experienceSchema],
-    education: [educationSchema]
+    education: [educationSchema],
+    skills: [{
+        skill: String
+    }]
 }, {
     timestamps: true
 });

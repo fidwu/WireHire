@@ -20,6 +20,7 @@ export const postProfile = createAsyncThunk(
             },
             body: JSON.stringify(payload)
         };
+        console.log(settings)
         const response = await fetch(`/api/profile/${user}/${category}`, settings);
         const data = await response.json();
         console.log("post data:", data);
@@ -29,22 +30,28 @@ export const postProfile = createAsyncThunk(
 
 export const editProfile = createAsyncThunk(
     "profile/editProfile",
-    async ({user, category, itemId, payload}) => {
+    async ({user, category, payload, itemId}) => {
+        console.log("edit payload: ", payload);
         const settings = {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
         };
+        console.log(settings)
         let response = "";
-        if (!category && !itemId) {
-            response = await fetch(`api/profile/${user}`, settings);
+        if (category === "skills") {
+            response = await fetch(`/api/profile/${user}/${category}`, settings);
+        }
+        else if (!category && !itemId) {
+            response = await fetch(`/api/profile/${user}`, settings);
         }
         else {
-            response = await fetch(`api/profile/${user}/${category}/${itemId}`, settings);
+            response = await fetch(`/api/profile/${user}/${category}/${itemId}`, settings);
         }
         const data = await response.json();
+        console.log(data)
         return data;
     }
 )
@@ -58,7 +65,9 @@ export const deleteProfileItem = createAsyncThunk(
                 'Content-Type': 'application/json',
             }
         };
-        const response = await fetch(`api/profile/${user}/${category}/${itemId}`, settings);
+        console.log("in delete profile item: ", category);
+        let response = "";
+        response = await fetch(`api/profile/${user}/${category}/${itemId}`, settings);
         const data = await response.json();
         return data;
     }

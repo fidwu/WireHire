@@ -46,6 +46,22 @@ profileRouter.route('/:userId/:category')
             })
             .catch(err => next(err))
     })
+    .put((req, res, next) => {
+        console.log("user id: ", req.params.userId);
+        console.log("body: ", req.body.skills);
+        Profile
+            .findOneAndUpdate({username: req.params.userId}, 
+            {
+                $addToSet: { skills: req.body.skills }
+            },  { new: true, upsert: true })
+            .then(user => {
+                console.log(user);
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(user);
+            })
+            .catch(err => next(err));
+    })
 
 profileRouter.route('/:userId/:category/:itemId')
     .put((req, res, next) => {
@@ -78,6 +94,25 @@ profileRouter.route('/:userId/:category/:itemId')
             },  { new: true })
             .then(user => {
                 console.log(user.experience);
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(user);
+            })
+            .catch(err => next(err));
+    })
+
+// edit/delete skills
+profileRouter.route('/:userId/skills/')
+    .put((req, res, next) => {
+        // console.log("user id: ", req.params.userId);
+        console.log("body: ", req);
+        Profile
+            .findOneAndUpdate({username: req.params.userId}, 
+            {
+                $set: { skills: { "skill": req.body.skill } }
+            },  { new: true, upsert: true })
+            .then(user => {
+                console.log(user);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.json(user);
