@@ -39,7 +39,6 @@ JobsRouter.route('/:jobId')
                         }
                     }, { new: true })
                     .then(job => {
-                        console.log(job);
                         res.statusCode = 200;
                         res.setHeader('Content-Type', 'application/json');
                         res.json(job); 
@@ -55,7 +54,6 @@ JobsRouter.route('/:userId')
         Jobs
             .find({ "appliedUsers.username": req.params.userId })
             .then(job => {
-                console.log(job);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.json(job);

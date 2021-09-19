@@ -1,6 +1,6 @@
 import React from 'react';
 import {Row, Col, Button} from 'reactstrap';
-import {Card, CardBody, CardImg, CardText, CardTitle, CardLink, CardDeck} from 'reactstrap';
+import {Card, CardBody, CardImg, CardText, CardTitle, CardLink} from 'reactstrap';
 import { Carousel } from "react-bootstrap";
 import image1 from '../images/salaryguide.jpg';
 import image2 from '../images/best-jobs-2021-badge-graphic.svg';

@@ -14,8 +14,6 @@ router.get("/", function (req, res, next) {
 });
 
 router.post("/signup", async (req, res) => {
-  console.log("body", req.body);
-  console.log("username", req.body.username);
   try {
     const user = new User({
       username: req.body.username,
@@ -25,14 +23,11 @@ router.post("/signup", async (req, res) => {
     });
     user.validate((err) => {
       if (err) {
-        console.log("validating error: ", err);
         res.json({ err: err });
       }
     });
     User.register(user, req.body.password, async (err, user) => {
-      console.log("error:", err);
       if (err) {
-        console.log("here");
         res.statusCode = 500;
         res.setHeader("Content-Type", "application/json");
         res.json({ err: err });
@@ -42,7 +37,6 @@ router.post("/signup", async (req, res) => {
         user.lastName = req.body.lastName;
         user.email = req.body.email;
         passport.authenticate("local")(req, res, () => {
-          console.log(req.user);
           const token = authenticate.getToken({
             _id: req.user._id,
             username: req.user.username,
@@ -75,7 +69,6 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/login", passport.authenticate("local"), (req, res) => {
-  console.log(req.user);
   const token = authenticate.getToken({
     _id: req.user._id,
     username: req.user.username,
@@ -101,12 +94,9 @@ router.get("/logout", (req, res, next) => {
 });
 
 router.get("/auth", (req, res, next) => {
-  console.log(req.cookies);
   if (req.cookies.token) {
-    console.log("here");
     let user = req.cookies.token.split(".")[1];
     var decodedUser = JSON.parse(atob(user));
-    console.log("decoded:", decodedUser);
     res.json({
       loggedIn: true,
       user: decodedUser.username,

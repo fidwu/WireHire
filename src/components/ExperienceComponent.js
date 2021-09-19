@@ -35,7 +35,6 @@ const Experience = () => {
     const { user } = useContext(AuthContext);
 
     const profileExp = useSelector((state) => state.profile.data[0].experience);
-    console.log(profileExp);
 
     // make a copy to sort by date
     let profileExpSorted = [...profileExp];
@@ -98,7 +97,6 @@ const Experience = () => {
             ...(endDate &&  { endDate: new Date(endDate) } 
             )
         };
-        console.log(payload);
 
         const requiredFieldsFilled = payload.company && payload.title && payload.startDate && (payload.isCurrent || payload.endDate);
 

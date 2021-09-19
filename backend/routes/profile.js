@@ -5,25 +5,25 @@ const profileRouter = express.Router();
 
 profileRouter.route('/:userId')
     .get((req, res, next) => {
-        console.log(req.params.userId);
         Profile.find({ username: req.params.userId })
             .then(profile => {
-                console.log(profile);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.json(profile);
             })
             .catch(err => next(err));
     })
+
     .put((req, res, next) => {
         Profile
             .findOneAndUpdate({username: req.params.userId}, {
-                phoneNum: req.body.phoneNum
+                phoneNum: req.body.phoneNum,
+                name: req.body.name,
+                email: req.body.email
             }, {
                 new: true
             })
             .then(user => {
-                console.log(user);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.json(user);
@@ -33,13 +33,11 @@ profileRouter.route('/:userId')
 
 profileRouter.route('/:userId/:category')
     .post((req, res, next) => {
-        console.log(req.body);
         Profile
             .findOneAndUpdate({username: req.params.userId}, {
                 $push: { [req.params.category]: req.body }
             }, { new: true })
             .then(user => {
-                console.log(user);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.json(user);
@@ -47,15 +45,12 @@ profileRouter.route('/:userId/:category')
             .catch(err => next(err))
     })
     .put((req, res, next) => {
-        console.log("user id: ", req.params.userId);
-        console.log("body: ", req.body.skills);
         Profile
             .findOneAndUpdate({username: req.params.userId}, 
             {
                 $addToSet: { skills: req.body.skills }
             },  { new: true, upsert: true })
             .then(user => {
-                console.log(user);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.json(user);
@@ -66,9 +61,6 @@ profileRouter.route('/:userId/:category')
 profileRouter.route('/:userId/:category/:itemId')
     .put((req, res, next) => {
         const objectId = mongoose.Types.ObjectId(req.params.itemId);
-        console.log(req.params.userId);
-        console.log(req.params.itemId);
-        console.log(req.body);
         Profile
             .findOneAndUpdate({username: req.params.userId, 
                 [req.params.category]: { $elemMatch: { "_id": objectId } }
@@ -76,7 +68,6 @@ profileRouter.route('/:userId/:category/:itemId')
                 $set: { [`${req.params.category}.$`]: { "_id": objectId, ...req.body } }
             },  { new: true })
             .then(user => {
-                console.log(user);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.json(user);
@@ -86,33 +77,12 @@ profileRouter.route('/:userId/:category/:itemId')
 
     .delete((req, res, next) => {
         const objectId = mongoose.Types.ObjectId(req.params.itemId);
-        console.log(req.params.userId);
         Profile
             .findOneAndUpdate({username: req.params.userId}, 
                 {
                 $pull: { [req.params.category]: { "_id": objectId } }
             },  { new: true })
             .then(user => {
-                console.log(user.experience);
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(user);
-            })
-            .catch(err => next(err));
-    })
-
-// edit/delete skills
-profileRouter.route('/:userId/skills/')
-    .put((req, res, next) => {
-        // console.log("user id: ", req.params.userId);
-        console.log("body: ", req);
-        Profile
-            .findOneAndUpdate({username: req.params.userId}, 
-            {
-                $set: { skills: { "skill": req.body.skill } }
-            },  { new: true, upsert: true })
-            .then(user => {
-                console.log(user);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.json(user);

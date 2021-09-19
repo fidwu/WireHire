@@ -123,3 +123,16 @@
         padding: 3px 5px;
     }
 }
+
+.alert.alert-shown {
+    opacity: 1;
+    transition: all 200ms linear;
+}
+  
+.alert.alert-hidden {
+    opacity: 0;
+    transition: all 200ms linear;
+    padding: 0;
+    margin: 0;
+    height: 0;
+}

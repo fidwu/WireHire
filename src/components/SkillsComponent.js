@@ -12,7 +12,6 @@ const Skills = () => {
     const dispatch = useDispatch();
 
     const profileSkills = useSelector((state) => state.profile.data[0].skills);
-    console.log(profileSkills);
 
     const [modal, setModal] = useState(false);
     const [skill, setSkill] = useState(null);
@@ -22,20 +21,26 @@ const Skills = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setSkill(null)
-        
-        if (skill) {
+        setSkill(null);
+
+        // check if inputted skill exists to prevent duplicates
+        const isDuplicate = profileSkills.filter((profileSkill) => profileSkill.skill.toLowerCase() === skill.toLowerCase());
+
+        if (skill && !isDuplicate.length) {
             const args = {
                 user,
                 category: "skills",
                 payload: { skill }
             };
             dispatch(postProfile(args));
+            setErrorMsg("");
+        }
+        if (isDuplicate.length) {
+            setErrorMsg("Skill already entered.");
         }
     }
 
     const handleDelete = (skillId) => {
-        console.log(skillId)
         const args = {
             user,
             category: "skills",
@@ -57,6 +62,7 @@ const Skills = () => {
                     setSkill={setSkill}
                     displaySkills={profileSkills}
                     delete={handleDelete}
+                    errorMsg={errorMsg}
                     submit={handleSubmit}
                 />
             </div>

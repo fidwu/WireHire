@@ -5,7 +5,6 @@ export const fetchProfile = createAsyncThunk(
     async (user) => {
         const response = await fetch(`/api/profile/${user}`);
         const data = await response.json();
-        console.log(data);
         return data;
     }
 );
@@ -20,10 +19,8 @@ export const postProfile = createAsyncThunk(
             },
             body: JSON.stringify(payload)
         };
-        console.log(settings)
         const response = await fetch(`/api/profile/${user}/${category}`, settings);
         const data = await response.json();
-        console.log("post data:", data);
         return data;
     }
 )
@@ -31,7 +28,6 @@ export const postProfile = createAsyncThunk(
 export const editProfile = createAsyncThunk(
     "profile/editProfile",
     async ({user, category, payload, itemId}) => {
-        console.log("edit payload: ", payload);
         const settings = {
             method: 'PUT',
             headers: {
@@ -39,7 +35,6 @@ export const editProfile = createAsyncThunk(
             },
             body: JSON.stringify(payload)
         };
-        console.log(settings)
         let response = "";
         if (category === "skills") {
             response = await fetch(`/api/profile/${user}/${category}`, settings);
@@ -51,7 +46,6 @@ export const editProfile = createAsyncThunk(
             response = await fetch(`/api/profile/${user}/${category}/${itemId}`, settings);
         }
         const data = await response.json();
-        console.log(data)
         return data;
     }
 )
@@ -65,7 +59,6 @@ export const deleteProfileItem = createAsyncThunk(
                 'Content-Type': 'application/json',
             }
         };
-        console.log("in delete profile item: ", category);
         let response = "";
         response = await fetch(`api/profile/${user}/${category}/${itemId}`, settings);
         const data = await response.json();

@@ -1,25 +1,8 @@
-import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, Row, Col, Alert, InputGroup, InputGroupAddon, InputGroupText, Badge } from 'reactstrap';
+import React, {useState} from 'react';
+import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, Row, Col, Alert, InputGroup, InputGroupAddon, Badge } from 'reactstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import '../profile.scss';
-
-// const ProfileModal = (props) => {
-
-//     return (
-//         <Modal isOpen={props.isOpen} toggle={props.toggle} centered={true}>
-//             <ModalHeader>Edit</ModalHeader>
-//             <ModalBody>
-//                 <Form onSubmit={props.submit}>
-//                     {props.form}
-//                     <div className="text-center">
-//                         <Button type="submit" color="primary">Save</Button>
-//                     </div>
-//                 </Form>
-//             </ModalBody>
-//         </Modal>
-//     )
-// }
 
 export const EducationModal = (props) => {
     return (
@@ -161,28 +144,40 @@ export const ExperienceModal = (props) => {
 
 
 export const SkillsModal = (props) => {
+    const [fadeIn, setFadeIn] = useState(true);
+    const toggle = () => {
+        setFadeIn(true);
+        setTimeout(() => {
+            setFadeIn(false);
+        }, 2000);
+    }
     return (
         <Modal isOpen={props.isOpen} toggle={props.toggle} centered={true}>
             <ModalHeader toggle={props.toggle}>{props.action} Skills</ModalHeader>
             <ModalBody>
+
+                {props.errorMsg ? (
+                    <Alert color="danger" className={`${fadeIn ? 'alert-shown' : 'alert-hidden'}`}>{props.errorMsg}</Alert>
+                ) : null}
+
                 <Form onSubmit={props.submit}>
                     <InputGroup>
                         <Input placeholder="Add Skill" value={props.skill || ''} onChange={(e) => props.setSkill(e.target.value)} />
                         <InputGroupAddon addonType="append">
-                            <Button color="primary" type="submit">Add</Button>
+                            <Button color="primary" type="submit" onClick={toggle}>Add</Button>
                         </InputGroupAddon>
                     </InputGroup>
                 </Form>
                 <div className="d-flex skills mt-2 flex-wrap justify-content-center">
-                    {props.displaySkills.map((skills, idx) => {
-                        if (props.displaySkills.length !== 0) {
+                    {props.displaySkills.length &&
+                        props.displaySkills.map((skills, idx) => {
                             return (
                                 <div key={idx} className="d-flex m-2">
                                     <Badge color="secondary">{skills.skill} <button onClick={() => props.delete(skills._id)} className="skill-delete">&#x2715;</button></Badge>
                                 </div>
                             )
-                        }
-                    })}
+                        })
+                    }
                 </div>
             </ModalBody>
         </Modal>

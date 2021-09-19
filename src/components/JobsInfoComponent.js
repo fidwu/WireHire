@@ -9,8 +9,6 @@ const JobsInfo = (props) => {
 
     const jobs = useSelector((state) => state.jobs);
 
-    console.log(jobs);
-
     return (
         <div className="jobs container">
             {jobs.data.filter(job => job._id === params.id).map(job =>

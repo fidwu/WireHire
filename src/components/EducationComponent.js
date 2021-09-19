@@ -40,10 +40,8 @@ const Education = () => {
     }
 
     const { user } = useContext(AuthContext);
-    console.log(user);
 
     const profileEdu = useSelector((state) => state.profile.data[0].education);
-    console.log(profileEdu);
 
     // make a copy to sort by date
     let profileEduSorted = [...profileEdu];
@@ -74,7 +72,6 @@ const Education = () => {
     }
 
     const editItem = (education) => {
-        console.log(education);
         setEduInputs(education);
     }
 
@@ -85,7 +82,6 @@ const Education = () => {
             ...(startDate && { startDate }), 
             ...(endDate && { endDate })
         };
-        console.log(payload);
 
         const requiredFieldsFilled = payload.school && payload.degree && payload.startDate && payload.endDate;
         
@@ -97,7 +93,6 @@ const Education = () => {
                     itemId: educationId,
                     payload
                 };
-                console.log(payload);
                 dispatch(editProfile(updateArgs));
                 toggleModal();
             }

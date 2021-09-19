@@ -5,7 +5,7 @@ import AuthContext from "./Auth";
 import { useDispatch, useSelector } from "react-redux";
 import { editProfile } from "../redux/profile";
 
-const About = (props) => {
+const About = () => {
 
     const dispatch = useDispatch();
 
@@ -14,12 +14,10 @@ const About = (props) => {
     const { user } = useContext(AuthContext);
 
     const profile = useSelector((state) => state.profile.data);
-    console.log(profile);
 
     const toggle = () => setModal(!modal);
 
     const editProfileAbout = (about) => {
-        console.log(about);
         setInputs(about);
     }
 
@@ -29,22 +27,22 @@ const About = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // alert(JSON.stringify(inputs));
-        console.log(user);
-        console.log("phone num inputs: ", inputs.phoneNum);
         const updateArgs = {
             user,
             category: null,
             itemId: null,
-            payload: { "phoneNum": inputs.phoneNum }
+            payload: { 
+                "phoneNum": inputs.phoneNum,
+                "name": inputs.name,
+                "email": inputs.email 
+            }
         };
-        console.log(inputs);
         dispatch(editProfile(updateArgs));
         toggle();
     }
 
     return (
-        props.profile.map((info) => {
+        profile.map((info) => {
             return (
                 <div className="info text-center" key={info._id}>
                     <div className="align-items-center px-sm-2 py-2 mb-2 header">
@@ -60,12 +58,12 @@ const About = (props) => {
                         <ModalBody>
                             <Form onSubmit={handleSubmit}>
                                 <FormGroup>
-                                    <Label htmlFor="username">Name</Label>
-                                    <Input type="text" id="name" name="name" placeholder="Name" defaultValue={`${info.name}`} readOnly />
+                                    <Label htmlFor="name">Name</Label>
+                                    <Input type="text" id="name" name="name" placeholder="Name" defaultValue={`${info.name}`} onChange={handleChange} />
                                 </FormGroup>
                                 <FormGroup>
                                     <Label htmlFor="email">Email</Label>
-                                    <Input type="email" id="email" name="email" placeholder="Email" defaultValue={info.email} readOnly />
+                                    <Input type="email" id="email" name="email" placeholder="Email" defaultValue={info.email} onChange={handleChange} />
                                 </FormGroup>
                                 <FormGroup>
                                     <Label htmlFor="phoneNum">Phone Number</Label>

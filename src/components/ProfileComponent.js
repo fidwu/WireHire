@@ -10,13 +10,10 @@ import { useSelector } from "react-redux";
 const Profile = () => {
 
   const { user } = useContext(AuthContext);
-  console.log(user);
 
   const profile = useSelector((state) => state.profile);
-  console.log(profile);
 
   if (user) {
-    console.log(profile);
     if (profile.status === "loading") {
       return <h2>Loading</h2>
     }

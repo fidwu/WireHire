@@ -51,7 +51,6 @@ class Header extends Component {
                 body: JSON.stringify(loginBody)
             })
                 .then(res => {
-                    console.log(res);
                     // close the modal if login is successful, otherwise, clear password field and display error
                     if (res.status === 200) {
                         this.setState({ successMsg: "Login successful!" });

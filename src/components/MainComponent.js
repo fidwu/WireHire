@@ -33,14 +33,12 @@ const Main = () => {
       credentials: "include",
     })
       .then((res) => {
-        console.log(res);
         if (!res.ok) {
           throw new Error(res.err);
         }
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         setIsLoggedIn(data.loggedIn);
         setUser(data.user);
       })
@@ -50,7 +48,6 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    console.log(user);
     dispatch(fetchJobs());
     if (user) {
       dispatch(fetchProfile(user));
