@@ -83,7 +83,7 @@ class SignUp extends Component {
   render() {
     return (
       <Form>
-        <h3 className="push">Create Account</h3>
+        <h3 className="my-4">Create Account</h3>
         <div className="signup">
           {this.state.successMsg ? (
             <Alert color="success">{this.state.successMsg}</Alert>

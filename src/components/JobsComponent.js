@@ -77,10 +77,10 @@ const Jobs = () => {
                 locationInputChanged={e => searchLocationUpdated(e)}
             />
             {jobs.status === "loading" && 
-                <h2>Loading...</h2>
+                <p className="mt-3">Loading...</p>
             }
             {jobs.status === "failed" &&
-                <h2>Error getting jobs</h2>
+                <p className="mt-3">Error getting jobs</p>
             }
             {jobs.status === "success" && !emptyJobMsg ?
                 jobDisplay.map((job) => (

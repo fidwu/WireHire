@@ -14,17 +14,17 @@ export const EducationModal = (props) => {
                 ) : null}
                 <Form onSubmit={props.submit}>
                     <FormGroup>
-                        <Label htmlFor="school">School</Label>
+                        <Label htmlFor="school">School <span className="text-danger">*</span></Label>
                         <Input type="text" id="school" name="school" placeholder="School" defaultValue={props.school || ''} onChange={props.handleChange} />
                     </FormGroup>
                     <FormGroup>
-                        <Label htmlFor="degree">Degree</Label>
+                        <Label htmlFor="degree">Degree <span className="text-danger">*</span></Label>
                         <Input type="text" id="degree" name="degree" placeholder="Degree" defaultValue={props.degree || ''} onChange={props.handleChange} />
                     </FormGroup>
                     <FormGroup>
                         <Row>
                             <Col>
-                                <Label htmlFor="startdate">Start Date</Label>
+                                <Label htmlFor="startdate">Start Date <span className="text-danger">*</span></Label>
                                 <DatePicker
                                     className="form-control"
                                     selected={props.startDate && new Date(props.startDate)}
@@ -36,7 +36,7 @@ export const EducationModal = (props) => {
                                 />
                             </Col>
                             <Col>
-                                <Label htmlFor="enddate">End Date (or Expected)</Label>
+                                <Label htmlFor="enddate">End Date (or Expected) <span className="text-danger">*</span></Label>
                                 <DatePicker
                                     className="form-control"
                                     selected={props.endDate && new Date(props.endDate)}
@@ -169,7 +169,7 @@ export const SkillsModal = (props) => {
                     </InputGroup>
                 </Form>
                 <div className="d-flex skills mt-2 flex-wrap justify-content-center">
-                    {props.displaySkills.length &&
+                    {props.displaySkills.length ?
                         props.displaySkills.map((skills, idx) => {
                             return (
                                 <div key={idx} className="d-flex m-2">
@@ -177,6 +177,7 @@ export const SkillsModal = (props) => {
                                 </div>
                             )
                         })
+                        : <div className="pb-2">No skills to display</div>
                     }
                 </div>
             </ModalBody>

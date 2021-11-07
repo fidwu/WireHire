@@ -6,17 +6,6 @@
   justify-content: flex-start;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -58,7 +47,6 @@
 .modalLogin {
   margin: auto;
   width: 100%;
-  color:#61dafb;
 }
 
 .signup {
@@ -71,30 +59,26 @@
 .signup-button {
   background-color: #001f3f;
 }
- .push {
-  height: 100px;
-  margin-top: 20px;
- }
- 
- .disclaimer {
-   margin-top: 25px;
-   font-size: small;
-   margin-left: auto;
-   margin-right: auto;
-   max-width: 600px;
- }
 
- .resume {
-   font-size: medium;
-   position: relative;
- }
+.disclaimer {
+  margin-top: 25px;
+  font-size: small;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 600px;
+}
 
- .no-padding {
+.resume {
+  font-size: medium;
+  position: relative;
+}
+
+.no-padding {
   padding-left: 0;
   padding-right: 0;
 }
 
-#footer  {
+#footer {
   background-color: #001f3f;
   margin-top: 1rem;
   padding: 1rem;
@@ -103,7 +87,6 @@
   left: 0;
   width: 100%;
   margin-top: auto;
-  
 }
 
 #footer a {
@@ -116,13 +99,12 @@
 
 .backgroundimage {
   background-image: url("../src/images/job-banner.jpg");
-  width: 100vw;
   height: 50vh;
-  min-height: 425px; 
+  min-height: 425px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: relative;
-  border: 2px solid #001f3f ;
+  border: 2px solid #001f3f;
   margin-bottom: 20px;
 }
 
@@ -134,25 +116,24 @@
 .home-p {
   font-size: large;
   text-align: center;
-  
 }
 
 .modal-style {
-  background-color:#001f3f ;
+  background-color: #001f3f;
   color: white
 }
 
-#show-link a:visited{
+#show-link a:visited {
   color: #001f3f;
 }
 
 .home-carousel {
-  border: 2px solid #001f3f ;
+  border: 2px solid #001f3f;
   margin-bottom: 20px;
 }
 
 .carousel-indicators li {
-  background-color: black; 
+  background-color: black;
 }
 
 .home-employers {
@@ -185,26 +166,26 @@
 }
 
 .backgroundimage-overlay {
-  content:'';
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  background:black;
-  opacity:0.3;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: black;
+  opacity: 0.3;
 }
 
 /* white text for mobile/small screens */
 @media only screen and (max-width: 576px) {
-  div.backgroundimage-overlay + div {
+  div.backgroundimage-overlay+div {
     color: white;
   }
 }
 
 /* black text for screen width above 576px */
 @media only screen and (min-width: 576px) {
-  div.backgroundimage-overlay + div {
+  div.backgroundimage-overlay+div {
     color: black;
   }
 }

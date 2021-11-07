@@ -144,14 +144,15 @@ const Education = () => {
                     return (
                         <div className="education text-left" key={idx}>
                             <Row className="my-2 mx-0 w-100">
-                                <Col xs={7} lg={5} className="p-0 font-weight-bold">{education.school} - {education.degree}</Col>
+                                <Col xs={7} lg={5} className="p-0 font-weight-bold">{education.school}</Col>
                                 <Col xs={{ order: 3 }} md={{ order: 2 }} className="p-0 col-xs-5 col-lg-5 text-lg-center">{formatDate(education.startDate)} - {formatDate(education.endDate)}</Col>
                                 <Col lg={{ order: 3 }} className="p-0 col text-right">
                                     <i className="fa fa-pencil px-2" onClick={e => { editItem(education); toggleModal(e, idx) }}></i>
                                     <i className="fa fa-times px-2" onClick={e => deleteItem(e, education._id)}></i>
                                 </Col>
                             </Row>
-                            <Row className="mb-2 mx-0">GPA: {education.gpa?.toFixed(1)}</Row>
+                            <Row className="mb-2 mx-0">{education.degree}</Row>
+                            <Row className="mb-2 mx-0">{education.gpa ? 'GPA: ' + education.gpa?.toFixed(1) : ''}</Row>
                             <Row className="mb-2 mx-0">{education.description}</Row>
                             <EducationModal
                                 isOpen={modalID === idx}

@@ -22,7 +22,7 @@ const Home = () => {
                 </style>
                 <div className="container-fluid no-padding backgroundimage">
                     <div className="backgroundimage-overlay d-block d-sm-none"></div>
-                    <div className="row h-100 align-items-center">
+                    <div className="row m-0 h-100 align-items-center">
                         <div className="col-sm-6 top-content align-items-center">
                             <div style={{ fontSize: '4vh' }} >Dream Jobs. Top Talent. All in One Place.</div>
                             <br />
